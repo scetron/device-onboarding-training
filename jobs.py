@@ -2,7 +2,7 @@
 
 import csv
 from nautobot.dcim.models import Location
-from nautobot.extras.status import Status
+from nautobot.extras.models import Status
 from nautobot.apps.jobs import Job, register_jobs, TextVar
 
 
