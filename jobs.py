@@ -41,23 +41,23 @@ class CreateLocations(Job):
         try:
             LocationType.objects.get(name="Datacenter")
         except LocationType.DoesNotExist:
-            logger.failure("Datacenter location type does not exist")
+            self.logger.failure("Datacenter location type does not exist")
         try:
             LocationType.objects.get(name="Branch")
         except LocationType.DoesNotExist:
-            logger.failure("Branch location type does not exist")
+            self.logger.failure("Branch location type does not exist")
         try:
             LocationType.objects.get(name="City")
         except LocationType.DoesNotExist:
-            logger.failure("City location type does not exist")
+            self.logger.failure("City location type does not exist")
         try:
             LocationType.objects.get(name="State")
         except LocationType.DoesNotExist:
-            logger.failure("State location type does not exist")
+            self.logger.failure("State location type does not exist")
         try:
             LocationType.objects.get(name="Site")
         except LocationType.DoesNotExist:
-            logger.failure("Site location type does not exist")
+            self.logger.failure("Site location type does not exist")
 
         for location in locations:
             state = state_expander.get(location["state"], location["state"])
