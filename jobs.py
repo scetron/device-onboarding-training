@@ -28,11 +28,11 @@ class CreateLocations(Job):
 
     location_csv = TextVar()
 
-    def run(self, data, commit):
+    def run(self, data, commit, location_csv):
 
         active = Status.objects.get(name="Active")
 
-        locations = csv.DictReader(data["location_csv"].splitlines())
+        locations = csv.DictReader(location_csv.splitlines())
         for location in locations:
             if len(location["state"]) == 2:
                 state = state_expander[location["state"]]
