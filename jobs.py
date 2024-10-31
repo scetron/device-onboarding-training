@@ -25,7 +25,7 @@ state_expander = {
 
 
 class CreateLocations(Job):
-
+    debug = True
     location_csv = TextVar()
 
     class Meta:
@@ -43,33 +43,42 @@ class CreateLocations(Job):
             "Branch": LocationType.objects.get(name="Branch"),
             "City": LocationType.objects.get(name="City"),
             "State": LocationType.objects.get(name="State"),
+            "Site": LocationType.objects.get(name="Site"),
         }
         for location in locations:
             state = state_expander.get(location["state"], location["state"])
-            state_location, site_created = Location.objects.get_or_create(
+            state_location, state_created = Location.objects.get_or_create(
                 name=state,
                 status=active,
-                location_type=location_types["State"],
+                location_type=LocationType.objects.get(name="State"),
             )
             city_location, city_created = Location.objects.get_or_create(
                 name=location["city"],
                 status=active,
-                location_type=location_types["City"],
+                location_type=LocationType.objects.get(name="City"),
                 parent=state_location,
             )
+            site_location, site_created = Location.objects.get_or_create(
+                name=location["city"],
+                status=active,
+                location_type=LocationType.objects.get(name="Site"),
+                parent=city_location,
+            )
             if location["name"].endswith("-DC"):
-                site_location, site_created = Location.objects.get_or_create(
-                    name=location["name"],
-                    status=active,
-                    location_type=location_types["Datacenter"],
-                    parent=city_location,
+                datacenter_location, datacenter_created = (
+                    Location.objects.get_or_create(
+                        name=location["name"],
+                        status=active,
+                        location_type=LocationType.objects.get(name="Datacenter"),
+                        parent=site_location,
+                    )
                 )
             elif location["name"].endswith("-BR"):
-                site_location, site_created = Location.objects.get_or_create(
+                branch_location, branch_created = Location.objects.get_or_create(
                     name=location["name"],
                     status=active,
-                    location_type=location_types["Branch"],
-                    parent=city_location,
+                    location_type=LocationType.objects.get(name="Branch"),
+                    parent=site_location,
                 )
 
 
