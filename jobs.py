@@ -39,9 +39,9 @@ class CreateLocations(Job):
 
         locations = csv.DictReader(location_csv.splitlines())
         try:
-            LocationType.objects.get(name="Datacenter")
+            LocationType.objects.get(name="Data Center")
         except LocationType.DoesNotExist:
-            self.logger.error("Datacenter location type does not exist")
+            self.logger.error("Data Center location type does not exist")
         try:
             LocationType.objects.get(name="Branch")
         except LocationType.DoesNotExist:
@@ -83,7 +83,7 @@ class CreateLocations(Job):
                     Location.objects.get_or_create(
                         name=location["name"],
                         status=active,
-                        location_type=LocationType.objects.get(name="Datacenter"),
+                        location_type=LocationType.objects.get(name="Data Center"),
                         parent=site_location,
                     )
                 )
