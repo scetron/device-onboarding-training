@@ -38,13 +38,27 @@ class CreateLocations(Job):
         active = Status.objects.get(name="Active")
 
         locations = csv.DictReader(location_csv.splitlines())
-        location_types = {
-            "Datacenter": LocationType.objects.get(name="Datacenter"),
-            "Branch": LocationType.objects.get(name="Branch"),
-            "City": LocationType.objects.get(name="City"),
-            "State": LocationType.objects.get(name="State"),
-            "Site": LocationType.objects.get(name="Site"),
-        }
+        try:
+            LocationType.objects.get(name="Datacenter")
+        except LocationType.DoesNotExist:
+            self.log_failure("Datacenter location type does not exist")
+        try:
+            LocationType.objects.get(name="Branch")
+        except LocationType.DoesNotExist:
+            self.log_failure("Branch location type does not exist")
+        try:
+            LocationType.objects.get(name="City")
+        except LocationType.DoesNotExist:
+            self.log_failure("City location type does not exist")
+        try:
+            LocationType.objects.get(name="State")
+        except LocationType.DoesNotExist:
+            self.log_failure("State location type does not exist")
+        try:
+            LocationType.objects.get(name="Site")
+        except LocationType.DoesNotExist:
+            self.log_failure("Site location type does not exist")
+
         for location in locations:
             state = state_expander.get(location["state"], location["state"])
             state_location, state_created = Location.objects.get_or_create(
