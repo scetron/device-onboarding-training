@@ -32,7 +32,7 @@ class CreateLocations(Job):
 
         active = Status.objects.get(name="Active")
 
-        locations = csv.DictReader(self.location_csv.splitlines())
+        locations = csv.DictReader(data["location_csv"].splitlines())
         for location in locations:
             if len(location["state"]) == 2:
                 state = state_expander[location["state"]]
