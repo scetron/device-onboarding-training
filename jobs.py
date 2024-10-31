@@ -28,7 +28,12 @@ class CreateLocations(Job):
 
     location_csv = TextVar()
 
-    def run(self, data, commit, location_csv):
+    class Meta:
+        name = "Create Locations"
+        description = "Create locations from CSV file"
+        dryrun_default = False
+
+    def run(self, location_csv):
 
         active = Status.objects.get(name="Active")
 
@@ -44,11 +49,6 @@ class CreateLocations(Job):
                 state=state,
                 status=active,
             )
-
-    class Meta:
-        name = "Create Locations"
-        description = "Create locations from CSV file"
-        dryrun_default = False
 
 
 register_jobs(CreateLocations)
