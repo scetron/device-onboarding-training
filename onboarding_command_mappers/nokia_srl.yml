@@ -30,3 +30,4 @@ sync_devices:
       parser: "none"
       jpath: "interfaces[*].subinterfaces[].{name: name, addresses: address[*].prefix}"
       post_processor: "{% for entry in obj %}{% for address in entry.addresses %}{% if original_host == address.split('/')[0] %}{{ address.split('/')[1] }}{% endif %}{% endfor %}{% endfor %}"
+      iterable_type: "int"
