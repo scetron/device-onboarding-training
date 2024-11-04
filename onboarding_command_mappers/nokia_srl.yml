@@ -22,7 +22,7 @@ sync_devices:
     commands:
       command: "show interface all | as json" #or "show interface detail | as json"
       parser: "none"
-      jpath: "interfaces[*].subinterfaces[*].{name: name, addresses: address[*].prefix}"
+      jpath: "interfaces[*].subinterfaces[].{name: name, addresses: address[*].prefix}"
       post_processor: "{% for entry in obj %}{% for address in entry.addresses %}{% if original_host == address.split('/'')[0] %}{{ entry.name }}{% endif %}{% endfor %}{% endfor %}"
   mask_length: 
     commands: 
