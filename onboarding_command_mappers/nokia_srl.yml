@@ -10,7 +10,7 @@ sync_devices:
     commands:
       command: "show version | as json" # or "show platform chassis | as json"
       parser: "none"
-      jpath: '"basic system info"."Serial Number"'
+      jpath: "\"basic system info\".\"Serial Number\""
       post_processor: "none"
   device_type: 
     commands:
